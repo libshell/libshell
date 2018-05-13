@@ -1,10 +1,6 @@
-.SUFFIXES: .c .o
-.PHONY: all backend clean frontend
+.include <./Makefile.inc>
 
-CFLAGS?=-O2
-CFLAGS+= -Wall -Wpedantic -Werror -Wformat=2 -Wshadow -Wpointer-arith \
-	-Wcast-qual -Wstrict-aliasing=2 -Wwrite-strings -Wstack-protector
-CFLAGS+= ${CFLAGS_$@}
+.PHONY: all backend clean frontend
 
 DIRS = backend frontend
 
@@ -18,9 +14,6 @@ libshell: main.o common.o
 
 CFLAGS_main.o=-Wno-pedantic
 main.o: libshell.h
-
-.c.o:
-	${CC} -fPIC ${CFLAGS} -c -o $@ $<
 
 clean:
 	rm -f *.o libshell
