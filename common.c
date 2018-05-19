@@ -65,6 +65,9 @@ void
 free_command(struct command *c) {
 	size_t i;
 
+	if (c == NULL)
+		return;
+
 	for (i = 0; i < c->n_args; i++)
 		free(c->args[i]);
 
@@ -76,6 +79,9 @@ void
 free_pipeline(struct pipeline *p) {
 	size_t i;
 
+	if (p == NULL)
+		return;
+
 	for (i = 0; i < p->n_commands; i++)
 		free_command(p->commands[i]);
 
@@ -86,6 +92,9 @@ free_pipeline(struct pipeline *p) {
 void
 free_list(struct list *l) {
 	size_t i;
+
+	if (l == NULL)
+		return;
 
 	for (i = 0; i < l->n_pipelines; i++)
 		free_pipeline(l->pipelines[i]);
