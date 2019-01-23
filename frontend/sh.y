@@ -5,11 +5,11 @@
 
 #include "../libshell.h"
 
-static struct sublist *return_list;
+static struct list *return_list;
 
 int yylex();
 
-int frontend_sh(struct sublist **);
+int frontend_sh(struct list **);
 int yyerror(const char *);
 %}
 
@@ -25,20 +25,22 @@ int yyerror(const char *);
 	bool b;
 	char *string;
 	struct command *command;
+	struct list *list;
 	struct pipeline *pipeline;
 	struct sublist *sublist;
 }
 
 %type <command> command
 %type <pipeline> pipeline
+%type <list> list
 %type <sublist> sublist
 %type <b> sublistend
 
 %%
 
 list:
-	  /* empty */
-	| list sublist sublistend		{ return_list = $2; return_list->async = $3; YYACCEPT; }
+	  /* empty */				{ $$ = NULL; return_list = $$; }
+	| list sublist sublistend		{ $$ = add_sublist($1, $2, $3); return_list = $$; }
 
 sublistend:
 	  TOK_SEMI			{ $$ = false; }
@@ -62,7 +64,7 @@ command:
 %%
 
 int
-libshell_func(struct sublist **l) {
+libshell_func(struct list **l) {
 	int r;
 
 	r = yyparse();

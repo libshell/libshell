@@ -61,6 +61,24 @@ add_pipeline(struct sublist *l, struct pipeline *p, int sep) {
 
 }
 
+struct list *
+add_sublist(struct list *l, struct sublist *sl, bool async) {
+	if (l == NULL) {
+		if ((l = calloc(1, sizeof(struct list))) == NULL)
+			err(1, "malloc");
+	}
+
+	sl->async = async;
+
+	l->n_sublists++;
+	if ((l->sublists = reallocarray(l->sublists, l->n_sublists, sizeof(struct sublist *))) == NULL)
+		err(1, "reallocarray");
+
+	l->sublists[l->n_sublists - 1] = sl;
+
+	return l;
+}
+
 void
 free_command(struct command *c) {
 	size_t i;
@@ -101,5 +119,19 @@ free_sublist(struct sublist *l) {
 
 	free(l->pipelines);
 	free(l->separators);
+	free(l);
+}
+
+void
+free_list(struct list *l) {
+	size_t i;
+
+	if (l == NULL)
+		return;
+
+	for (i = 0; i < l->n_sublists; i++)
+		free_sublist(l->sublists[i]);
+
+	free(l->sublists);
 	free(l);
 }
