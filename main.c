@@ -9,7 +9,7 @@
 struct module {
 	const char *name;
 	void *handle;
-	int (*func)(struct list **);
+	int (*func)(struct sublist **);
 };
 
 struct module *modules;
@@ -20,7 +20,7 @@ static int load_modules(const char **);
 int
 main(int argc, char *argv[]) {
 	const char *init_modules[] = { "frontend/sh", "backend/exec", NULL };
-	struct list *l = NULL;
+	struct sublist *l = NULL;
 	size_t i;
 
 	if (load_modules(init_modules) != 0)
@@ -33,7 +33,7 @@ main(int argc, char *argv[]) {
 				warnx("module %s failed", modules[i].name);
 			}
 		}
-		free_list(l);
+		free_sublist(l);
 	}
 
 	return 0;

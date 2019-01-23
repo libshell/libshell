@@ -38,10 +38,10 @@ add_command(struct pipeline *p, struct command *c) {
 	return p;
 }
 
-struct list *
-add_pipeline(struct list *l, struct pipeline *p, int sep) {
+struct sublist *
+add_pipeline(struct sublist *l, struct pipeline *p, int sep) {
 	if (l == NULL) {
-		if ((l = calloc(1, sizeof(struct list))) == NULL)
+		if ((l = calloc(1, sizeof(struct sublist))) == NULL)
 			err(1, "malloc");
 	}
 
@@ -90,7 +90,7 @@ free_pipeline(struct pipeline *p) {
 }
 
 void
-free_list(struct list *l) {
+free_sublist(struct sublist *l) {
 	size_t i;
 
 	if (l == NULL)

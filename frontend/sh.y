@@ -5,11 +5,11 @@
 
 #include "../libshell.h"
 
-static struct list *return_list;
+static struct sublist *return_list;
 
 int yylex();
 
-int frontend_sh(struct list **);
+int frontend_sh(struct sublist **);
 int yyerror(const char *);
 %}
 
@@ -26,30 +26,30 @@ int yyerror(const char *);
 	char *string;
 	struct command *command;
 	struct pipeline *pipeline;
-	struct list *list;
+	struct sublist *sublist;
 }
 
 %type <command> command
 %type <pipeline> pipeline
-%type <list> list
-%type <b> listend
+%type <sublist> sublist
+%type <b> sublistend
 
 %%
 
-lists:
+list:
 	  /* empty */
-	| lists list listend		{ return_list = $2; return_list->async = $3; YYACCEPT; }
+	| list sublist sublistend		{ return_list = $2; return_list->async = $3; YYACCEPT; }
 
-listend:
+sublistend:
 	  TOK_SEMI			{ $$ = false; }
 	| TOK_NL			{ $$ = false; }
 	| '\0'				{ $$ = false; }
 	| TOK_AMPER			{ $$ = true; }
 
-list:
+sublist:
 	  pipeline			{ $$ = add_pipeline(NULL, $1, 0); }
-	| list TOK_DAMPER pipeline	{ $$ = add_pipeline($1, $3, LSEP_AND); }
-	| list TOK_DPIPE pipeline	{ $$ = add_pipeline($1, $3, LSEP_OR); }
+	| sublist TOK_DAMPER pipeline	{ $$ = add_pipeline($1, $3, LSEP_AND); }
+	| sublist TOK_DPIPE pipeline	{ $$ = add_pipeline($1, $3, LSEP_OR); }
 
 pipeline:
 	  command			{ $$ = add_command(NULL, $1); }
@@ -62,7 +62,7 @@ command:
 %%
 
 int
-libshell_func(struct list **l) {
+libshell_func(struct sublist **l) {
 	int r;
 
 	r = yyparse();

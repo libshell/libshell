@@ -16,7 +16,7 @@ struct pipeline {
 	bool negate;
 };
 
-struct list {
+struct sublist {
 	struct pipeline **pipelines;
 	char *separators;
 	size_t n_pipelines;
@@ -30,9 +30,9 @@ extern const int default_fd[3];
 
 struct command *add_arg(struct command *, char *);
 struct pipeline *add_command(struct pipeline *, struct command *);
-struct list *add_pipeline(struct list *, struct pipeline *, int sep);
+struct sublist *add_pipeline(struct sublist *, struct pipeline *, int);
 void free_command(struct command *);
 void free_pipeline(struct pipeline *);
-void free_list(struct list *);
+void free_sublist(struct sublist *);
 
 #endif

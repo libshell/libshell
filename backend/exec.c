@@ -11,12 +11,12 @@
 static int run_command_internal(const struct command *, const int[]);
 
 int
-libshell_func(const struct list **l) {
-	return run_list(*l, default_fd);
+libshell_func(const struct sublist **l) {
+	return run_sublist(*l, default_fd);
 }
 
 int
-run_list(const struct list *l, const int fd[]) {
+run_sublist(const struct sublist *l, const int fd[]) {
 	size_t i;
 	int last_exit_status, ret, *statuses = NULL;
 
