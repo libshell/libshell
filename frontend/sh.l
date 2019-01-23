@@ -4,6 +4,8 @@
 #include "sh.h"
 %}
 
+%option noyywrap
+
 %%
 
 ;	return TOK_SEMI;
