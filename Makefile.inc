@@ -1,8 +1,22 @@
 .SUFFIXES: .c .l .o .so .y .yy.c .yy.o
 
 CFLAGS?=-O2
-CFLAGS+= -Wall -Wpedantic -Werror -Wformat=2 -Wshadow -Wpointer-arith \
-	-Wcast-qual -Wstrict-aliasing=2 -Wwrite-strings -Wstack-protector
+WERROR ?= -Werror
+CFLAGS += \
+	$(WERROR) \
+	-Wall \
+	-Wcast-qual \
+	-Wextra \
+	-Wformat=2 \
+	-Wpedantic \
+	-Wpointer-arith \
+	-Wshadow \
+	-Wsign-compare \
+	-Wsign-conversion \
+	-Wstack-protector \
+	-Wstrict-aliasing=2 \
+	-Wwrite-strings \
+	-fno-common
 CFLAGS+= ${CFLAGS_$@}
 
 .c.o:

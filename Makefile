@@ -12,7 +12,7 @@ ${DIRS}: common.o
 libshell: main.o common.o
 	${CC} -Wl,--export-dynamic ${CFLAGS} -o $@ $>
 
-CFLAGS_main.o=-Wno-pedantic
+CFLAGS_main.o=-Wno-pedantic -Wno-unused-parameter
 main.o: libshell.h
 
 clean:

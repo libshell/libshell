@@ -57,7 +57,7 @@ load_modules(const char **m) {
 		modules[i].name = strdup(m[i]);
 
 		ret = snprintf(buf, sizeof(buf), "%s.so", modules[i].name);
-		if (ret < 0 || ret >= sizeof(buf)) {
+		if (ret < 0 || ret >= (int)sizeof(buf)) {
 			warnx("module name too long");
 			goto err;
 		}
