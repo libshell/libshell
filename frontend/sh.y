@@ -38,14 +38,20 @@ int yyerror(const char *);
 
 %%
 
+input:
+	  list inputend			{ return_list = $1; YYACCEPT; }
+	| list sublist inputend		{ return_list = add_sublist($1, $2, false); YYACCEPT; }
+
+inputend:
+	  TOK_NL
+	| '\0'
+
 list:
-	  /* empty */				{ $$ = new_list(); return_list = $$; }
-	| list sublist sublistend		{ $$ = add_sublist($1, $2, $3); return_list = $$; }
+	  /* empty */			{ $$ = new_list(); }
+	| list sublist sublistend	{ $$ = add_sublist($1, $2, $3); }
 
 sublistend:
 	  TOK_SEMI			{ $$ = false; }
-	| TOK_NL			{ $$ = false; }
-	| '\0'				{ $$ = false; }
 	| TOK_AMPER			{ $$ = true; }
 
 sublist:
