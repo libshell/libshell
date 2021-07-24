@@ -26,7 +26,7 @@ struct list {
 #define LSEP_AND 0
 #define LSEP_OR 1
 
-const int default_fd[3];
+extern const int default_fd[3];
 
 struct command *add_arg(struct command *, char *);
 struct pipeline *add_command(struct pipeline *, struct command *);
