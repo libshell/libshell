@@ -31,6 +31,7 @@ main(int argc, char *argv[]) {
 		for (i = 0; i < module_num; i++) {
 			if (modules[i].func(&l) != 0) {
 				warnx("module %s failed", modules[i].name);
+				break;
 			}
 		}
 		free_list(l);
