@@ -26,7 +26,7 @@ main(int argc, char *argv[]) {
 	if (load_modules(init_modules) != 0)
 		errx(1, "Failed to load initial modules");
 
-	while (1) {
+	while (!feof(stdin)) {
 		printf("> ");
 		for (i = 0; i < module_num; i++) {
 			if (modules[i].func(&l) != 0) {
