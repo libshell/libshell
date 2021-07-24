@@ -36,6 +36,7 @@ extern const int default_fd[3];
 struct command *add_arg(struct command *, char *);
 struct pipeline *add_command(struct pipeline *, struct command *);
 struct sublist *add_pipeline(struct sublist *, struct pipeline *, int);
+struct list *new_list();
 struct list *add_sublist(struct list *, struct sublist *, bool);
 void free_command(struct command *);
 void free_pipeline(struct pipeline *);

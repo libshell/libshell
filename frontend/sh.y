@@ -39,7 +39,7 @@ int yyerror(const char *);
 %%
 
 list:
-	  /* empty */				{ $$ = NULL; return_list = $$; }
+	  /* empty */				{ $$ = new_list(); return_list = $$; }
 	| list sublist sublistend		{ $$ = add_sublist($1, $2, $3); return_list = $$; }
 
 sublistend:

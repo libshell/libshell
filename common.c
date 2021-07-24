@@ -62,10 +62,19 @@ add_pipeline(struct sublist *l, struct pipeline *p, int sep) {
 }
 
 struct list *
+new_list() {
+	struct list *l;
+
+	if ((l = calloc(1, sizeof(struct list))) == NULL)
+		err(1, "malloc");
+
+	return l;
+}
+
+struct list *
 add_sublist(struct list *l, struct sublist *sl, bool async) {
 	if (l == NULL) {
-		if ((l = calloc(1, sizeof(struct list))) == NULL)
-			err(1, "malloc");
+		l = new_list();
 	}
 
 	sl->async = async;
