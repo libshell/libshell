@@ -20,13 +20,14 @@ static int load_modules(const char **);
 int
 main(int argc, char *argv[]) {
 	const char *init_modules[] = { "frontend/sh", "backend/exec", NULL };
-	struct list *l = NULL;
+	struct list *l;
 	size_t i;
 
 	if (load_modules(init_modules) != 0)
 		errx(1, "Failed to load initial modules");
 
 	while (!feof(stdin)) {
+		l = NULL;
 		printf("> ");
 		for (i = 0; i < module_num; i++) {
 			if (modules[i].func(&l) != 0) {
